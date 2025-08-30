@@ -4,7 +4,7 @@ This project is designed to run locally using XAMPP (Apache + MySQL + phpMyAdmin
 
 # Setup Instructions
 
-_Install XAMPP_
+**_Install XAMPP_**
 1) Download XAMPP for your OS: https://www.apachefriends.org/
 2) Install and start:
     - Apache (for PHP)
@@ -13,13 +13,13 @@ _Install XAMPP_
     - http://localhost → XAMPP dashboard
     - http://localhost/phpmyadmin → phpMyAdmin
 
-_Clone the repository into XAMPP htdocs_
+**_Clone the repository into XAMPP htdocs_**
 1) Move into your XAMPP htdocs folder (default: C:\xampp\htdocs on Windows)
     - cd C:\xampp\htdocs
     - git clone https://github.com/<your-username>/<your-repo>.git contact-manager (replace the url with yours when you click the green button CODE)
 2) Now the project is available at: http://localhost/contact-manager
 
-_Import the database_
+**_Import the database_**
 1) Open phpMyAdmin (http://localhost/phpmyadmin).
 2) Create a new database: cop4331_dev (Collation: utf8mb4_unicode_ci)
 3) Select the database → Go to Import.
@@ -27,18 +27,18 @@ _Import the database_
 5) Disable Enable foreign key checks
 6) Click Go.
 
-_Configure the app_
+**_Configure the app_**
 1) Copy the example config: cp config.example.php config.php
 2) The provided defaults work for XAMPP
 
-_Run the website_
+**_Run the website_**
 1) Make sure Apache and MySQL are running in XAMPP.
 2) Open your browser: http://localhost/contact-manager
 
-_Quick sanity check_
+**_Quick sanity check_**
 1) Log into the site with a sample user from the Users table (RickL, SamH, etc.).
 2) Check that contacts and colors display.
 
-_Notes_
+**_Notes_**
 1) Don’t commit config.php (real config) — it’s already in .gitignore.
 2) If you break the DB, just drop cop4331_dev in phpMyAdmin and re-import the SQL dump.
