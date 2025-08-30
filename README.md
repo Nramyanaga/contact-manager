@@ -10,6 +10,8 @@ This project is designed to run locally using XAMPP (Apache + MySQL + phpMyAdmin
 2) Install and start:
     - Apache (for PHP)
     - MySQL (for phpMyAdmin/Database)
+    - <img width="994" height="635" alt="image" src="https://github.com/user-attachments/assets/30d0d4ec-82cb-4ff5-8a23-78f3b4be4cac" />
+
 3) You should now be able to open:
     - http://localhost → XAMPP dashboard
     - http://localhost/phpmyadmin → phpMyAdmin
