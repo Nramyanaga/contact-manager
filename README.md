@@ -3,6 +3,7 @@ COP4331C LAMP small project for Group 25. A simple PHP/MySQL web app for managin
 This project is designed to run locally using XAMPP (Apache + MySQL + phpMyAdmin).
 
 **Setup Instructions**
+
 _Install XAMPP_
 1) Download XAMPP for your OS: https://www.apachefriends.org/
 2) Install and start:
