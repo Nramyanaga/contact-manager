@@ -2,7 +2,7 @@
 COP4331C LAMP small project for Group 25. A simple PHP/MySQL web app for managing contacts, colors, and users.
 This project is designed to run locally using XAMPP (Apache + MySQL + phpMyAdmin).
 
-**Setup Instructions**
+# Setup Instructions
 
 _Install XAMPP_
 1) Download XAMPP for your OS: https://www.apachefriends.org/
