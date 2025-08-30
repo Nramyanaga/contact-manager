@@ -27,12 +27,12 @@ This project is designed to run locally using XAMPP (Apache + MySQL + phpMyAdmin
 2) Create a new database: cop4331_dev (Collation: utf8mb4_unicode_ci)
 3) Select the database → Go to Import.
 4) Choose the file: db/cop4331_full.sql
-5) Disable Enable foreign key checks
+5) At the bottom of the Import page, uncheck “Enable foreign key checks” before clicking Go.
 6) Click Go.
 
 
 **_4. Configure the app_**
-1) Copy the example config: cp config.example.php config.php
+1) Copy the example config: cp config.example.php config.php (the cp command may not work on windows cmd so you can either do it on git bash or manually add it using your IDE)
 2) The provided defaults work for XAMPP
 
 
@@ -46,8 +46,9 @@ This project is designed to run locally using XAMPP (Apache + MySQL + phpMyAdmin
 2) Check that contacts and colors display.
 
 
-**_Notes_**
-1) Don’t commit config.php (real config) — it’s already in .gitignore.
-2) If you break the DB, just drop cop4331_dev in phpMyAdmin and re-import the SQL dump.
-3) When you run Git commands, they need to be inside the cloned repo folder.
-4) Don't commit directly to the main branch, create you own branch and post a PR on the remote github.
+### Git Workflow Notes
+- Always run Git commands inside the project folder (`contact-manager/`).
+- Don’t commit directly to `main`.
+- To create a new branch:
+  git checkout -b feature/<your-feature-name>
+- Push your branch and open a Pull Request to `main` on GitHub.
