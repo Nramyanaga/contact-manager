@@ -7,16 +7,16 @@ This project is designed to run locally using XAMPP (Apache + MySQL + phpMyAdmin
 _Install XAMPP_
 1) Download XAMPP for your OS: https://www.apachefriends.org/
 2) Install and start:
-  - Apache (for PHP)
-  - MySQL (for phpMyAdmin/Database)
+    - Apache (for PHP)
+    - MySQL (for phpMyAdmin/Database)
 3) You should now be able to open:
-  - http://localhost → XAMPP dashboard
-  - http://localhost/phpmyadmin → phpMyAdmin
+    - http://localhost → XAMPP dashboard
+    - http://localhost/phpmyadmin → phpMyAdmin
 
 _Clone the repository into XAMPP htdocs_
 1) Move into your XAMPP htdocs folder (default: C:\xampp\htdocs on Windows)
-  - cd C:\xampp\htdocs
-  - git clone https://github.com/<your-username>/<your-repo>.git contact-manager (replace the url with yours when you click the green button CODE)
+    - cd C:\xampp\htdocs
+    - git clone https://github.com/<your-username>/<your-repo>.git contact-manager (replace the url with yours when you click the green button CODE)
 2) Now the project is available at: http://localhost/contact-manager
 
 _Import the database_
@@ -42,5 +42,3 @@ _Quick sanity check_
 _Notes_
 1) Don’t commit config.php (real config) — it’s already in .gitignore.
 2) If you break the DB, just drop cop4331_dev in phpMyAdmin and re-import the SQL dump.
-
-
