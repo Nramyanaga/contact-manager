@@ -5,7 +5,7 @@ This project is designed to run locally using XAMPP (Apache + MySQL + phpMyAdmin
 
 # Setup Instructions
 
-**_Install XAMPP_**
+**_1. Install XAMPP_**
 1) Download XAMPP for your OS: https://www.apachefriends.org/
 2) Install and start:
     - Apache (for PHP)
@@ -15,14 +15,14 @@ This project is designed to run locally using XAMPP (Apache + MySQL + phpMyAdmin
     - http://localhost/phpmyadmin → phpMyAdmin
 
 
-**_Clone the repository into XAMPP htdocs_**
+**_2. Clone the repository into XAMPP htdocs_**
 1) Move into your XAMPP htdocs folder (default: C:\xampp\htdocs on Windows)
     - cd C:\xampp\htdocs
     - git clone https://github.com/<your-username>/<your-repo>.git contact-manager (replace the url with yours when you click the green button CODE)
 2) Now the project is available at: http://localhost/contact-manager
 
 
-**_Import the database_**
+**_3. Import the database_**
 1) Open phpMyAdmin (http://localhost/phpmyadmin).
 2) Create a new database: cop4331_dev (Collation: utf8mb4_unicode_ci)
 3) Select the database → Go to Import.
@@ -31,17 +31,17 @@ This project is designed to run locally using XAMPP (Apache + MySQL + phpMyAdmin
 6) Click Go.
 
 
-**_Configure the app_**
+**_4. Configure the app_**
 1) Copy the example config: cp config.example.php config.php
 2) The provided defaults work for XAMPP
 
 
-**_Run the website_**
+**_5. Run the website_**
 1) Make sure Apache and MySQL are running in XAMPP.
 2) Open your browser: http://localhost/contact-manager
 
 
-**_Quick sanity check_**
+**_6. Quick sanity check_**
 1) Log into the site with a sample user from the Users table (RickL, SamH, etc.).
 2) Check that contacts and colors display.
 
