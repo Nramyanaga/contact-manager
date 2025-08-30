@@ -38,7 +38,9 @@ This project is designed to run locally using XAMPP (Apache + MySQL + phpMyAdmin
 
 **_5. Run the website_**
 1) Make sure Apache and MySQL are running in XAMPP.
-2) Open your browser: http://localhost/contact-manager
+2) Open your browser(these are for your local changes): http://localhost/contact-manager
+3) The server website is: ramyanaga.xyz
+4) If you want to upload to the remote. server ask Ramyanaga(Vaishu) for the IP and password. It would be best if you could inform her before uploading to the remote server.
 
 
 **_6. Quick sanity check_**
