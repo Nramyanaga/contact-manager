@@ -49,3 +49,5 @@ This project is designed to run locally using XAMPP (Apache + MySQL + phpMyAdmin
 **_Notes_**
 1) Don’t commit config.php (real config) — it’s already in .gitignore.
 2) If you break the DB, just drop cop4331_dev in phpMyAdmin and re-import the SQL dump.
+3) When you run Git commands, they need to be inside the cloned repo folder.
+4) Don't commit directly to the main branch, create you own branch and post a PR on the remote github.
