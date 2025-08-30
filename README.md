@@ -20,7 +20,7 @@ This project is designed to run locally using XAMPP (Apache + MySQL + phpMyAdmin
 **_2. Clone the repository into XAMPP htdocs_**
 1) Move into your XAMPP htdocs folder (default: C:\xampp\htdocs on Windows)
     - cd C:\xampp\htdocs
-    - git clone https://github.com/<your-username>/<your-repo>.git contact-manager (replace the url with yours when you click the green button CODE)
+    - git clone https://github.com/(replace the url with yours when you click the green button CODE)
 2) Now the project is available at: http://localhost/contact-manager
 
 
