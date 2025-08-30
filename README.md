@@ -46,7 +46,7 @@ This project is designed to run locally using XAMPP (Apache + MySQL + phpMyAdmin
 2) Check that contacts and colors display.
 
 
-### Git Workflow Notes
+## Git Workflow Notes
 - Always run Git commands inside the project folder (`contact-manager/`).
 - Don’t commit directly to `main`.
 - To create a new branch:
