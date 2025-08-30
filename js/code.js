@@ -1,4 +1,8 @@
-const urlBase = 'http://ramyanaga.xyz/LAMPAPI';
+//const urlBase = 'http://ramyanaga.xyz/LAMPAPI';
+const urlBase =
+  location.hostname === 'localhost'
+    ? 'http://localhost/contact-manager/LAMPAPI'
+    : '/LAMPAPI';
 const extension = 'php';
 
 let userId = 0;
