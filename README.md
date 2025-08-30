@@ -26,9 +26,9 @@ This project is designed to run locally using XAMPP (Apache + MySQL + phpMyAdmin
 
 **_3. Import the database_**
 1) Open phpMyAdmin (http://localhost/phpmyadmin).
-2) Create a new database: cop4331_dev (Collation: utf8mb4_unicode_ci)
-3) Select the database → Go to Import.
-4) Choose the file: db/cop4331_full.sql
+2) Create a new database, name it: cop4331_dev
+3) Select the database cop4331_dev → Go to Import.
+4) Choose the file(it should be in the cloned repository in your local files): db/cop4331_full.sql
 5) At the bottom of the Import page, uncheck “Enable foreign key checks” before clicking Go.
 6) Click Go.
 
@@ -42,7 +42,7 @@ This project is designed to run locally using XAMPP (Apache + MySQL + phpMyAdmin
 1) Make sure Apache and MySQL are running in XAMPP.
 2) Open your browser(these are for your local changes): http://localhost/contact-manager
 3) The server website is: ramyanaga.xyz
-4) If you want to upload to the remote. server ask Ramyanaga(Vaishu) for the IP and password. It would be best if you could inform her before uploading to the remote server.
+    - If you want to upload to the remote server ask Ramyanaga(Vaishu) for the IP and password. It would be best if you could inform her before uploading to the remote server, just to keep track.
 
 
 **_6. Quick sanity check_**
