@@ -187,3 +187,79 @@ function searchColor()
 	}
 	
 }
+
+function showInlineError(id, msg) {
+  const el = document.getElementById(id);
+  if (el) el.innerText = msg || "";
+}
+
+function validateSignupFields({ firstName, lastName, login, password, password2 }) {
+  if (!firstName || !lastName || !login || !password || !password2) {
+    return "Please fill in all fields.";
+  }
+  if (password.length < 6) {
+    return "Password must be at least 6 characters.";
+  }
+  if (password !== password2) {
+    return "Passwords do not match.";
+  }
+  return "";
+}
+
+function doSignup() {
+  // grab values
+  const firstName = document.getElementById("firstName").value.trim();
+  const lastName  = document.getElementById("lastName").value.trim();
+  const login     = document.getElementById("signupLogin").value.trim();
+  let   password  = document.getElementById("signupPassword").value;
+  const password2 = document.getElementById("signupPassword2").value;
+
+  // validations
+  const err = validateSignupFields({ firstName, lastName, login, password, password2 });
+  if (err) {
+    showInlineError("signupResult", err);
+    return;
+  }
+
+  // If your PHP expects MD5 (common in the starter), uncomment next line AND ensure login does same:
+  // password = md5(password);
+
+  const payload = { firstName, lastName, login, password };
+
+  const url = urlBase + '/SignUp.' + extension; // hits SignUp.php on your server
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+  showInlineError("signupResult", "Creating your account...");
+
+  xhr.onreadystatechange = function () {
+    if (this.readyState === 4) {
+      // success
+      if (this.status === 200) {
+        try {
+          const res = JSON.parse(xhr.responseText || "{}");
+          if (res.error) {
+            showInlineError("signupResult", res.error);
+            return;
+          }
+          // If your SignUp.php returns the same fields as Login (id, firstName, lastName), you could
+          // auto-login here; but the common flow is: redirect to login page with a success toast.
+          showInlineError("signupResult", "");
+          window.location.href = "index.html";
+        } catch (e) {
+          showInlineError("signupResult", "Unexpected response. Please try again.");
+        }
+      } else {
+        showInlineError("signupResult", "Signup failed. Please try again.");
+      }
+    }
+  };
+
+  xhr.onerror = function () {
+    showInlineError("signupResult", "Network error. Please try again.");
+  };
+
+  xhr.send(JSON.stringify(payload));
+}
+
