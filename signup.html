@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Create your account</title>
+  <link href="css/styles.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <script type="text/javascript" src="js/md5.js"></script>
+  <script type="text/javascript" src="js/code.js"></script>
+</head>
+<body>
+  <main class="auth-shell">
+    <section class="auth-card">
+      <h1 class="auth-title">Create account</h1>
+      <p class="auth-subtitle">It’s quick and easy</p>
+
+      <div class="auth-form">
+        <label class="auth-label" for="firstName">First name</label>
+        <input type="text" id="firstName" placeholder="First name" />
+
+        <label class="auth-label" for="lastName">Last name</label>
+        <input type="text" id="lastName" placeholder="Last name" />
+
+        <label class="auth-label" for="signupLogin">Username</label>
+        <input type="text" id="signupLogin" placeholder="Choose a username" />
+
+        <label class="auth-label" for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" placeholder="Create a password" />
+
+        <label class="auth-label" for="signupPassword2">Confirm password</label>
+        <input type="password" id="signupPassword2" placeholder="Confirm your password" />
+
+        <button type="button" class="buttons auth-button" onclick="doSignup();">
+          Sign Up
+        </button>
+
+        <span id="signupResult" class="auth-error"></span>
+
+        <p class="auth-switch">
+          Already have an account?
+          <a href="index.html" class="auth-link">Sign in</a>
+        </p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

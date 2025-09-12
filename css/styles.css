@@ -1,140 +1,265 @@
-body 
-{
-    background-color: #707070;
+/* =========================
+   Design Tokens
+========================= */
+:root {
+  --bg: #0b0f14;
+  --card: #151a21;
+  --muted: #8b97a7;
+  --text: #e9eef7;
+  --accent: #4ea3ff;
+  --danger: #ff5a5f;
+  --radius: 18px;
 }
 
-#title 
-{
-    font-size: 40px;
-    width: 100%;
-    margin: 2% 5%;
-    text-align: center;
-    font-family: 'Ubuntu', sans-serif;
-    color: #FFFFFF;
+/* =========================
+   Base
+========================= */
+html, body {
+  margin: 0;
+  min-height: 100%;
+}
+body {
+  background: radial-gradient(1200px 800px at 10% 0%, #10151c 0%, #0b0f14 60%);
+  color: var(--text);
+  font-family: 'Ubuntu', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 }
 
-#loginDiv
-{
-    font-size: 30px;
-    width: 70%;
-    margin-left: 15%;
-    padding: 25px;
-    background-color: #b2b2b2;
+/* =========================
+   Auth Pages (Login/Signup)
+========================= */
+.auth-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
 }
 
-#loggedInDiv
-{
-    font-size: 30px;
-    width: 70%;
-    margin-left: 15%;
-    padding: 25px;
-    background-color: #b2b2b2;
+.auth-card {
+  width: 100%;
+  max-width: 460px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.00));
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
 }
 
-#accessUIDiv
-{
-    font-size: 30px;
-    width: 70%;
-    margin-left: 15%;
-    padding: 25px;
-    background-color: #b2b2b2;
+/* Keep everything inside the card from overflowing its width */
+.auth-card,
+.auth-card * {
+  box-sizing: border-box;
 }
 
-.buttons
-{
-    font-size: 30px;
-    border-radius: 25px;
-    width: 50%;
-    margin-left: 25%;
-    font-family: 'Ubuntu', sans-serif;
+.auth-card {
+  overflow: hidden; /* trims any subpixel bleed on rounded corners */
 }
 
-.buttons:hover{
-    background-color: #00d5124f;
-    color: #FFFFFF;
-    opacity: 50%;
+.auth-form input[type="text"],
+.auth-form input[type="password"] {
+  line-height: 1.3;
 }
 
-#loginName
-{
-	font-size: 30px;
-}
-#loginPassword
-{
-	font-size: 30px;
-}
-#searchText
-{
-	font-size: 30px;
-}
-#colorText
-{
-	font-size: 30px;
+.auth-form input:focus {
+  outline: 0;               /* remove default outline */
+  box-shadow: 0 0 0 2px rgba(78,163,255,0.25); /* subtle focus ring */
 }
 
-input[type="text"],input[type="password"]{
-    border-radius: 25px;
-    text-align: center;
-    width: 80%;
-    margin-left: 10%;
-    margin-bottom: 2%;
-    font-family: 'Ubuntu', sans-serif;
+.auth-title {
+  margin: 4px 0 2px;
+  font-size: 28px;
+  letter-spacing: 0.2px;
+  text-align: center;
 }
 
-#inner-title{
-    display: inline-block;
-    font-size: 0.8em;
-    width: 90%;
-    text-align: center;
-    margin-left: 5%;
-    margin-bottom: 2%;
-    font-family: 'Ubuntu', sans-serif;
-    color: #95060a;
+.auth-subtitle {
+  margin: 0 0 18px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
 }
 
-#loginResult{
-    display: inline-block;
-    font-size: 0.8em;
-    width: 90%;
-    text-align: center;
-    margin-left: 5%;
-    margin-bottom: 2%;
-    font-family: 'Ubuntu', sans-serif;
-    color: #95060a;
+.auth-form {
+  display: grid;
+  gap: 10px;
 }
 
-#userName{
-    display: inline-block;
-    width: 80%;
-    margin-left: 10%;
-    text-align: center;
+.auth-label {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 6px;
 }
 
-#logoutButton{
-    width: 20%;
-    margin-left: 40%;
+.auth-form input[type="text"],
+.auth-form input[type="password"] {
+  width: 100%;
+  margin: 0;
+  padding: 12px 14px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  outline: none;
 }
 
-select{
-    width: 30%;
-    margin-left: 35%;
-    margin-top: 2%;
-    font-size: 0.75em;
-    font-family: 'Ubuntu', sans-serif;
+.auth-form input::placeholder {
+  color: #93a0b2;
 }
 
-#colorSearchResult{
-    display: none;
+.auth-form input:focus {
+  border-color: var(--accent);
 }
 
-#colorAddResult{
-    display: inline-block;
-    font-size: 0.8em;
-    width: 90%;
-    text-align: center;
-    margin-left: 5%;
-    margin-top: 2%;
-    margin-bottom: 1%;
-    font-family: 'Ubuntu', sans-serif;
-    color: #95060a;
+.auth-button,
+.buttons {
+  width: 100%;
+  margin: 6px 0 2px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: linear-gradient(180deg, #2b6bb2, #21538a);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
 }
+.auth-button:hover,
+.buttons:hover {
+  filter: brightness(1.05);
+}
+
+.auth-switch {
+  margin-top: 8px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.auth-link {
+  color: var(--accent);
+  text-decoration: none;
+}
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+.auth-error {
+  display: block;
+  margin-top: 6px;
+  color: var(--danger);
+  font-size: 13px;
+  min-height: 18px; /* avoids layout shift */
+}
+
+/* Neutralize any legacy IDs inside the new auth card if they exist */
+.auth-card #loginDiv,
+.auth-card #loggedInDiv,
+.auth-card #accessUIDiv {
+  background: transparent !important;
+  font-size: inherit !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+.auth-card #loginName,
+.auth-card #loginPassword {
+  font-size: 16px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  border-radius: 12px !important;
+  text-align: left !important;
+}
+
+/* =========================
+   Legacy Pages (Optional)
+   Use by adding <body class="legacy"> on older pages like color.html
+========================= */
+body.legacy {
+  background-color: #707070;
+  color: #000;
+}
+
+body.legacy #title {
+  font-size: 40px;
+  width: 100%;
+  margin: 2% 5%;
+  text-align: center;
+  font-family: 'Ubuntu', sans-serif;
+  color: #FFFFFF;
+}
+
+body.legacy #loginDiv,
+body.legacy #loggedInDiv,
+body.legacy #accessUIDiv {
+  font-size: 30px;
+  width: 70%;
+  margin-left: 15%;
+  padding: 25px;
+  background-color: #b2b2b2;
+}
+
+body.legacy .buttons {
+  font-size: 30px;
+  border-radius: 25px;
+  width: 50%;
+  margin-left: 25%;
+  font-family: 'Ubuntu', sans-serif;
+}
+body.legacy .buttons:hover {
+  background-color: #00d5124f;
+  color: #FFFFFF;
+  opacity: 0.5; /* fix invalid 50% */
+}
+
+body.legacy #loginName,
+body.legacy #loginPassword,
+body.legacy #searchText,
+body.legacy #colorText {
+  font-size: 30px;
+}
+
+body.legacy input[type="text"],
+body.legacy input[type="password"] {
+  border-radius: 25px;
+  text-align: center;
+  width: 80%;
+  margin-left: 10%;
+  margin-bottom: 2%;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+body.legacy #inner-title,
+body.legacy #loginResult,
+body.legacy #colorAddResult {
+  display: inline-block;
+  font-size: 0.8em;
+  width: 90%;
+  text-align: center;
+  margin-left: 5%;
+  margin-bottom: 2%;
+  font-family: 'Ubuntu', sans-serif;
+  color: #95060a;
+}
+
+body.legacy #userName {
+  display: inline-block;
+  width: 80%;
+  margin-left: 10%;
+  text-align: center;
+}
+
+body.legacy #logoutButton {
+  width: 20%;
+  margin-left: 40%;
+}
+
+body.legacy select {
+  width: 30%;
+  margin-left: 35%;
+  margin-top: 2%;
+  font-size: 0.75em;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+body.legacy #colorSearchResult { display: none; }
