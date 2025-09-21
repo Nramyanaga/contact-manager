@@ -112,12 +112,17 @@ function doLogout()
 	window.location.href = "index.html";
 }
 
-function addColor()
+function addContact
+()
 {
-	let newColor = document.getElementById("colorText").value;
-	document.getElementById("colorAddResult").innerHTML = "";
+	let firstName = document.getElementById("contactFirstName").value;
+	let lastName = document.getElementById("contactLastName").value;
+	let phone = document.getElementById("contactPhone").value;
+	let email = document.getElementById("contactEmail").value;
 
-	let tmp = {color:newColor,userId,userId};
+	document.getElementById("contactAddResult").innerHTML = "";
+
+	let tmp = {firstName:firstName, lastName:lastName, phone:phone, email:email, userId:userId};
 	let jsonPayload = JSON.stringify( tmp );
 
 	let url = urlBase + '/AddColor.' + extension;
@@ -131,29 +136,38 @@ function addColor()
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
-				document.getElementById("colorAddResult").innerHTML = "Color has been added";
+				let jsonObject = JSON.parse(xhr.responseText);
+                
+                if (jsonObject.error && jsonObject.error !== "") 
+                {
+                    document.getElementById("contactAddResult").innerHTML = jsonObject.error;
+                } 
+                else 
+                {
+                    document.getElementById("contactAddResult").innerHTML = "Contact has been added";
+                }
 			}
 		};
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("colorAddResult").innerHTML = err.message;
+		document.getElementById("contactAddResult").innerHTML = err.message;
 	}
 	
 }
 
-function searchColor()
+function searchContact()
 {
 	let srch = document.getElementById("searchText").value;
-	document.getElementById("colorSearchResult").innerHTML = "";
+	document.getElementById("contactSearchResult").innerHTML = "";
 	
-	let colorList = "";
+	let contactList = "";
 
 	let tmp = {search:srch,userId:userId};
 	let jsonPayload = JSON.stringify( tmp );
 
-	let url = urlBase + '/SearchColors.' + extension;
+	let url = urlBase + '/SearchContact.' + extension;
 	
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -164,16 +178,30 @@ function searchColor()
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
-				document.getElementById("colorSearchResult").innerHTML = "Color(s) has been retrieved";
-				let jsonObject = JSON.parse( xhr.responseText );
-				
-				for( let i=0; i<jsonObject.results.length; i++ )
-				{
-					colorList += jsonObject.results[i];
-					if( i < jsonObject.results.length - 1 )
-					{
-						colorList += "<br />\r\n";
-					}
+				let jsonObject = JSON.parse(xhr.responseText);
+                
+                if (jsonObject.error && jsonObject.error !== "") 
+                {
+                    document.getElementById("contactSearchResult").innerHTML = jsonObject.error;
+                } 
+                else 
+                {
+                    document.getElementById("contactSearchResult").innerHTML = "Contact(s) has been retrieved";
+                    
+                    for( let i=0; i<jsonObject.results.length; i++ )
+                    {
+                        contactList += jsonObject.results[i].FirstName + " " + jsonObject.results[i].LastName;
+                        if (jsonObject.results[i].Phone) {
+                            contactList += " - " + jsonObject.results[i].Phone;
+                        }
+                        if (jsonObject.results[i].Email) {
+                            contactList += " - " + jsonObject.results[i].Email;
+                        }
+                        if( i < jsonObject.results.length - 1 )
+                        {
+                            contactList += "<br />\r\n";
+                        }
+                    }
 				}
 				
 				document.getElementsByTagName("p")[0].innerHTML = colorList;
@@ -183,9 +211,48 @@ function searchColor()
 	}
 	catch(err)
 	{
-		document.getElementById("colorSearchResult").innerHTML = err.message;
+		document.getElementById("contactSearchResult").innerHTML = err.message;
 	}
 	
+}
+function deleteContact()
+{
+	let contactId = document.getElementById("contactId").value;
+
+	document.getElementById("contactDeleteResult").innerHTML = ""
+
+	let tmp = {id:contactId, userId:userId};
+	let jasonPayload = JSON>stringify(tmp);
+
+	let url = urlBase + '/DeleteContact.' + extension;
+
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content=type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			if(this.readyState == 4 && this.status == 200)
+			{
+				let jsonObject = JSON.parse(xhr.responseText);
+
+				if(jsonObject.error && jsonObject.error !== "")
+				{
+					document.getElementById("contactDeleteResult").innerHTML = jsonObject.error;
+				}
+				else
+				{
+					document.getElementById("contactDeleteResult").innerHTML = "Contact has been deleted";
+				}
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("contactDeleteResult").innerHTML = err.message;
+	}
 }
 
 function showInlineError(id, msg) {
