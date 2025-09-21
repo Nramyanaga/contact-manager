@@ -19,7 +19,7 @@ html, body {
   min-height: 100%;
 }
 body {
-  background: var(--bg);
+  background: radial-gradient(1200px 800px at 10% 0%, #3C7A89 0%, #16262E 100%);
   color: var(--text);
   font-family: 'Ubuntu', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 }
@@ -118,7 +118,7 @@ body {
   padding: 12px;
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.14);
-  background: linear-gradient(180deg, #3C7A89, #3C7A89);
+  background: linear-gradient(180deg, #F6BD60, #d1922a);
   color: #F7EDE2;
   font-size: 16px;
   cursor: pointer;
@@ -175,7 +175,7 @@ body {
    Homepage Styles
 ========================= */
 body.homepage {
-  background: var(--bg);
+  background: radial-gradient(1200px 800px at 10% 0%, #3C7A89 0%, #16262E 100%);
   color: var(--text);
   font-family: 'Ubuntu', sans-serif;
   margin: 0;
@@ -199,7 +199,7 @@ body.homepage {
 
 .homepage-header .tagline {
   font-size: 16px;
-  color: #3C7A89;
+  color: #F7EDE2;
   margin-top: 8px;
 }
 
@@ -234,7 +234,7 @@ body.homepage {
   display: inline-block;
   padding: 12px 24px;
   border-radius: var(--radius);
-  background: var(--card);
+  background: linear-gradient(180deg, #F6BD60, #d1922a);
   color: var(--text);
   text-decoration: none;
   font-size: 16px;
