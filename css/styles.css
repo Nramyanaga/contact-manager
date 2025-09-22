@@ -175,7 +175,10 @@ body {
    Homepage Styles
 ========================= */
 body.homepage {
-  background: radial-gradient(1200px 800px at 10% 0%, #3C7A89 0%, #16262E 100%);
+  background: url('../images/background.jpg');
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
   color: var(--text);
   font-family: 'Ubuntu', sans-serif;
   margin: 0;
