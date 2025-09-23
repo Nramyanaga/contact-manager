@@ -248,3 +248,62 @@ body.homepage {
 .homepage-nav .nav-link:hover {
   filter: brightness(1.1);
 }
+
+/* =========================
+   Contact Page Styles
+========================= */
+
+.contact-card {
+  max-width: 720px; /* wider than login/signup */
+}
+
+.contact-input {
+  width: 100%;
+  padding: 12px 14px;
+  margin: 6px 0;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  font-size: 16px;
+}
+
+.contact-results {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--card);
+  text-align: left;
+  white-space: pre-line;
+}
+
+.result-message {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.contact-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.05);
+}
+
+.delete-inline {
+  background: var(--danger);
+  border: none;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.delete-inline:hover {
+  filter: brightness(1.1);
+}
+
