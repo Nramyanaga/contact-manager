@@ -307,3 +307,14 @@ body.homepage {
   filter: brightness(1.1);
 }
 
+.auth-error {
+  transition: opacity 0.5s ease;
+}
+
+.auth-error:empty {
+  opacity: 0;
+}
+
+
+
+

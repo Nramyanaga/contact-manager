@@ -143,7 +143,22 @@ function addContact()
                 } 
                 else 
                 {
-                    document.getElementById("contactAddResult").innerHTML = "Contact has been added";
+                    const resultEl = document.getElementById("contactAddResult");
+                    resultEl.innerHTML = "Contact has been added";
+
+                    // clear inputs
+                    document.getElementById("contactFirstName").value = "";
+                    document.getElementById("contactLastName").value = "";
+                    document.getElementById("contactPhone").value = "";
+                    document.getElementById("contactEmail").value = "";
+
+                    // refresh list
+                    searchContact();
+
+                    // fade out message after 3 seconds
+                    setTimeout(() => {
+                        resultEl.innerHTML = "";
+                    }, 3000);
                 }
 			}
 		};
@@ -185,7 +200,6 @@ function searchContact()
                 } 
                 else 
                 {
-                    document.getElementById("contactSearchResult").innerHTML = "Contact(s) has been retrieved";
                     
                     for( let i=0; i<jsonObject.results.length; i++ )
                     {
@@ -242,7 +256,14 @@ function deleteContact(contactIdFromSearch)
                 } 
                 else 
                 {
-                    document.getElementById("contactDeleteResult").innerHTML = "Contact has been deleted";
+                    const resultEl = document.getElementById("contactDeleteResult").innerHTML = "Contact has been deleted";
+
+                    // fade out message after 3 seconds
+                    setTimeout(() => {
+                        resultEl.innerHTML = "";
+                    }, 3000);
+
+
                     // Refresh search results automatically
                     searchContact();
                 }
