@@ -173,109 +173,91 @@ function addContact()
 
 function searchContact()
 {
-	let srch = document.getElementById("searchText").value;
-	document.getElementById("contactSearchResult").innerHTML = "";
-	
-	let contactList = "";
+  let srch = document.getElementById("searchText").value;
+  const resultEl = document.getElementById("contactSearchResult");
+  resultEl.innerHTML = "";
 
-	let tmp = {search:srch,userId:userId};
-	let jsonPayload = JSON.stringify( tmp );
+  let contactList = "";
+  let tmp = {search: srch, userId: userId};
+  let jsonPayload = JSON.stringify(tmp);
 
-	let url = urlBase + '/SearchContacts.' + extension;
-	
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				let jsonObject = JSON.parse(xhr.responseText);
-                
-                if (jsonObject.error && jsonObject.error !== "") 
-                {
-                    document.getElementById("contactSearchResult").innerHTML = jsonObject.error;
-                } 
-                else 
-                {
-                    
-                    for( let i=0; i<jsonObject.results.length; i++ )
-                    {
-                      contactList += `
-                        <div class="contact-row">
-                          <span>${jsonObject.results[i].FirstName} ${jsonObject.results[i].LastName}
-                            ${jsonObject.results[i].Phone ? " Phone #: " + jsonObject.results[i].Phone : ""}
-                            ${jsonObject.results[i].Email ? " Email: " + jsonObject.results[i].Email : ""}
-                          </span>
-                          <button class="delete-inline" onclick="deleteContact(${jsonObject.results[i].ID})">Delete</button>
-                        </div>
-                      `;
+  let url = urlBase + '/SearchContacts.' + extension;
 
-                    }
-				}
-				document.getElementById("contactList").innerHTML = contactList;
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		document.getElementById("contactSearchResult").innerHTML = err.message;
-	}
-	
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  try {
+    xhr.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        let jsonObject = JSON.parse(xhr.responseText);
+
+        if (jsonObject.error && jsonObject.error !== "") {
+          // show “No records found” for 3 seconds
+          resultEl.innerHTML = jsonObject.error;
+          setTimeout(() => { resultEl.innerHTML = ""; }, 3000);
+        } else {
+          for (let i=0; i<jsonObject.results.length; i++) {
+            contactList += `
+              <div class="contact-row">
+                <span>${jsonObject.results[i].FirstName} ${jsonObject.results[i].LastName}
+                  ${jsonObject.results[i].Phone ? " Phone #: " + jsonObject.results[i].Phone : ""}
+                  ${jsonObject.results[i].Email ? " Email: " + jsonObject.results[i].Email : ""}
+                </span>
+                <button class="delete-inline" onclick="deleteContact(${jsonObject.results[i].ID})">Delete</button>
+              </div>
+            `;
+          }
+        }
+        document.getElementById("contactList").innerHTML = contactList;
+      }
+    };
+    xhr.send(jsonPayload);
+  }
+  catch(err) {
+    resultEl.innerHTML = err.message;
+    setTimeout(() => { resultEl.innerHTML = ""; }, 3000);
+  }
 }
+
 
 function deleteContact(contactIdFromSearch)
 {
-    // If called with parameter, use that. Otherwise fallback to input field.
-    let contactId = contactIdFromSearch || document.getElementById("deleteContactId").value;
-    
-    document.getElementById("contactDeleteResult").innerHTML = "";
+  const contactId = contactIdFromSearch || document.getElementById("deleteContactId").value;
+  const resultEl = document.getElementById("contactDeleteResult");
+  resultEl.innerHTML = ""; // clear first
 
-    let tmp = {id: contactId, userId: userId};
-    let jsonPayload = JSON.stringify(tmp);
+  const tmp = { id: contactId, userId: userId };
+  const jsonPayload = JSON.stringify(tmp);
 
-    let url = urlBase + '/DeleteContact.' + extension;
+  const url = urlBase + '/DeleteContact.' + extension;
 
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    try
-    {
-        xhr.onreadystatechange = function() 
-        {
-            if (this.readyState == 4 && this.status == 200) 
-            {
-                let jsonObject = JSON.parse(xhr.responseText);
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
-                if (jsonObject.error && jsonObject.error !== "") 
-                {
-                    document.getElementById("contactDeleteResult").innerHTML = jsonObject.error;
-                } 
-                else 
-                {
-                    const resultEl = document.getElementById("contactDeleteResult").innerHTML = "Contact has been deleted";
+  xhr.onreadystatechange = function () {
+    if (this.readyState === 4 && this.status === 200) {
+      const res = JSON.parse(xhr.responseText || "{}");
 
-                    // fade out message after 3 seconds
-                    setTimeout(() => {
-                        resultEl.innerHTML = "";
-                    }, 3000);
+      if (res.error && res.error !== "") {
+        resultEl.innerHTML = res.error;
+      } else {
+        resultEl.innerHTML = "Contact has been deleted";
 
+        // fade out after 3s (pairs nicely with your .auth-error:empty rule)
+        setTimeout(() => {
+          resultEl.innerHTML = "";
+        }, 3000);
 
-                    // Refresh search results automatically
-                    searchContact();
-                }
-            }
-        };
-        xhr.send(jsonPayload);
+        // refresh list
+        searchContact();
+      }
     }
-    catch(err)
-    {
-        document.getElementById("contactDeleteResult").innerHTML = err.message;
-    }
+  };
+
+  xhr.send(jsonPayload);
 }
+
 
 
 function updateContact()

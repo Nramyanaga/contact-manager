@@ -7,7 +7,7 @@
   --muted: #F7EDE2;
   --text: #F7EDE2;
   --accent: #F6BD60;
-  --danger: #ff5a5f;
+  --danger: #ffb49f;
   --radius: 18px;
 }
 
@@ -296,7 +296,7 @@ body.homepage {
 .delete-inline {
   background: var(--danger);
   border: none;
-  color: #fff;
+  color: #ffffff;
   padding: 6px 12px;
   border-radius: 8px;
   cursor: pointer;
