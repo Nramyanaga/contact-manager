@@ -37,6 +37,7 @@ body {
 .auth-card {
   width: 100%;
   max-width: 460px;
+  margin: auto;
   background: var(--card);
   backdrop-filter: blur(6px);
   border: 1px solid rgba(255,255,255,0.08);
@@ -294,7 +295,7 @@ body.homepage {
 }
 
 .delete-inline {
-  background: var(--danger);
+  background: var(--accent);
   border: none;
   color: #ffffff;
   padding: 6px 12px;
@@ -313,6 +314,55 @@ body.homepage {
 
 .auth-error:empty {
   opacity: 0;
+}
+
+/* Kill accidental horizontal scroll anywhere */
+html, body { overflow-x: hidden; }
+/* Make sizing predictable everywhere (not just inside .auth-card) */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Ensure the form and everything in it never exceed the card width */
+.auth-form { width: 100%; }
+.auth-form > * { max-width: 100%; }
+
+/* Search input specifically */
+#searchText { width: 100%; }
+
+/* Contact list container: keep inside card & wrap long strings */
+#contactList,
+.contact-results {
+  width: 100%;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Contact row: allow wrapping, and let the text shrink instead of pushing */
+.contact-row {
+  display: flex;
+  flex-wrap: wrap;   /* key: allows the row to break onto multiple lines */
+  gap: 8px;
+  min-width: 0;
+}
+.contact-row > * { min-width: 0; }     /* let children shrink */
+
+/* Keep Delete button from stretching the row */
+.delete-inline {
+  flex: 0 0 auto;    /* don’t let it grow */
+  margin-left: auto; /* push it to the end of the line */
+}
+
+/* Small screens: stack content so nothing can overflow */
+@media (max-width: 480px) {
+  .auth-shell { padding: 12px; }
+  .auth-card { padding: 20px 16px; border-radius: 14px; }
+  .contact-card { max-width: 100%; }
+
+  .contact-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .delete-inline { align-self: flex-end; }
 }
 
 
