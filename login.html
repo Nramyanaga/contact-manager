@@ -57,5 +57,15 @@
       </div>
     </section>
   </main>
+  <script>
+  const p = new URLSearchParams(location.search);
+  if (p.get('signup') === 'success') {
+    const el = document.getElementById('loginResult');
+    if (el) {
+      el.textContent = "Account created! Please sign in.";
+      setTimeout(() => el.textContent = "", 3000);
+    }
+  }
+</script>
 </body>
 </html>
