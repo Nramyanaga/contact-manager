@@ -130,6 +130,9 @@ body {
   color: #F7EDE2;
   font-size: 16px;
   cursor: pointer;
+  font-size: 0.9em; /* match inline buttons */
+  font-weight: 500; /* match inline buttons */
+  font-family: 'Ubuntu', sans-serif; /* force Ubuntu */
 }
 
 .auth-button:hover,
