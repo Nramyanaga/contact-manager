@@ -644,7 +644,8 @@ function doSignup() {
             return;
           }
           showInlineError("signupResult", "");
-          window.location.href = "index.html";
+          //window.location.href = "index.html";
+          window.location.href = "login.html?signup=success";
         } catch (e) {
           showInlineError("signupResult", "Unexpected response. Please try again.");
         }
