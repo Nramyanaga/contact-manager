@@ -171,139 +171,13 @@ function addContact()
 	
 }
 
-// function searchContact()
-// {
-//   let srch = document.getElementById("searchText").value;
-//   const resultEl = document.getElementById("contactSearchResult");
-//   resultEl.innerHTML = "";
-
-//   let contactList = "";
-//   let tmp = {search: srch, userId: userId};
-//   let jsonPayload = JSON.stringify(tmp);
-
-//   let url = urlBase + '/SearchContacts.' + extension;
-
-//   let xhr = new XMLHttpRequest();
-//   xhr.open("POST", url, true);
-//   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-//   try {
-//     xhr.onreadystatechange = function() {
-//       if (this.readyState == 4 && this.status == 200) {
-//         let jsonObject = JSON.parse(xhr.responseText);
-
-//         if (jsonObject.error && jsonObject.error !== "") {
-//           // show "No records found" for 3 seconds
-//           resultEl.innerHTML = jsonObject.error;
-//           setTimeout(() => { resultEl.innerHTML = ""; }, 3000);
-//         } else {
-//           const contactListEl = document.getElementById("contactList");
-//           contactListEl.innerHTML = ""; // Clear first
-          
-//           for (let i=0; i<jsonObject.results.length; i++) {
-//             const contact = jsonObject.results[i];
-            
-//             // Create contact row
-//             const rowDiv = document.createElement('div');
-//             rowDiv.className = 'contact-row';
-//             rowDiv.id = `contact-${contact.ID}`;
-
-//             rowDiv.dataset.contactId = String(contact.ID);
-            
-//             // Create contact info section
-//             const infoDiv = document.createElement('div');
-//             infoDiv.className = 'contact-info';
-            
-//             // Display mode
-//             const displayDiv = document.createElement('div');
-//             displayDiv.className = 'contact-display';
-//             displayDiv.id = `display-${contact.ID}`;
-//             displayDiv.innerHTML = `
-//               <span class="contact-name">${contact.FirstName} ${contact.LastName}</span>
-//               ${contact.Phone ? '<span class="contact-detail">Phone: ' + contact.Phone + '</span>' : ''}
-//               ${contact.Email ? '<span class="contact-detail">Email: ' + contact.Email + '</span>' : ''}
-//             `;
-            
-//             // Edit mode
-//             const editDiv = document.createElement('div');
-//             editDiv.className = 'contact-edit';
-//             editDiv.id = `edit-${contact.ID}`;
-//             editDiv.style.display = 'none';
-//             editDiv.innerHTML = `
-//               <input type="text" id="editFirstName-${contact.ID}" value="${contact.FirstName}" placeholder="First Name" class="edit-input" />
-//               <input type="text" id="editLastName-${contact.ID}" value="${contact.LastName}" placeholder="Last Name" class="edit-input" />
-//               <input type="text" id="editPhone-${contact.ID}" value="${contact.Phone || ''}" placeholder="Phone" class="edit-input" />
-//               <input type="text" id="editEmail-${contact.ID}" value="${contact.Email || ''}" placeholder="Email" class="edit-input" />
-//             `;
-            
-//             infoDiv.appendChild(displayDiv);
-//             infoDiv.appendChild(editDiv);
-            
-//             // Create actions section
-//             const actionsDiv = document.createElement('div');
-//             actionsDiv.className = 'contact-actions';
-            
-//             // Delete button
-//             const deleteBtn = document.createElement('button');
-//             deleteBtn.className = 'delete-inline';
-//             deleteBtn.textContent = 'Delete';
-//             deleteBtn.onclick = function() { deleteContact(contact.ID); };
-            
-//             // Update button
-//             const updateBtn = document.createElement('button');
-//             updateBtn.className = 'update-inline';
-//             updateBtn.id = `updateBtn-${contact.ID}`;
-//             updateBtn.textContent = 'Update';
-//             updateBtn.onclick = function() { toggleEdit(contact.ID); };
-            
-//             // Confirm button
-//             const confirmBtn = document.createElement('button');
-//             confirmBtn.className = 'confirm-inline';
-//             confirmBtn.id = `confirmBtn-${contact.ID}`;
-//             confirmBtn.textContent = 'Confirm';
-//             confirmBtn.style.display = 'none';
-//             confirmBtn.onclick = function() { confirmUpdate(contact.ID); };
-            
-//             // Cancel button
-//             const cancelBtn = document.createElement('button');
-//             cancelBtn.className = 'cancel-inline';
-//             cancelBtn.id = `cancelBtn-${contact.ID}`;
-//             cancelBtn.textContent = 'Cancel';
-//             cancelBtn.style.display = 'none';
-//             cancelBtn.onclick = function() { cancelEdit(contact.ID); };
-            
-//             actionsDiv.appendChild(deleteBtn);
-//             actionsDiv.appendChild(updateBtn);
-//             actionsDiv.appendChild(confirmBtn);
-//             actionsDiv.appendChild(cancelBtn);
-            
-//             // Assemble the row
-//             rowDiv.appendChild(infoDiv);
-//             rowDiv.appendChild(actionsDiv);
-            
-//             // Add to list
-//             contactListEl.appendChild(rowDiv);
-//           }
-//         }
-//       }
-//     };
-//     xhr.send(jsonPayload);
-//   }
-//   catch(err) {
-//     resultEl.innerHTML = err.message;
-//     setTimeout(() => { resultEl.innerHTML = ""; }, 3000);
-//   }
-// }
-
 function searchContact() {
-  const srchInput = document.getElementById("searchText");
-  const srch = (srchInput?.value || "").trim();
+  const srch = (document.getElementById("searchText")?.value || "").trim();
   const resultEl = document.getElementById("contactSearchResult");
-  const contactListEl = document.getElementById("contactList");
+  const listEl = document.getElementById("contactList");
 
-  // always clear the list before deciding what to render next
-  contactListEl.innerHTML = "";
-  // also clear any previous message; we'll set it conditionally below
-  resultEl.innerHTML = "";
+  // Don't clear the list yet — keep UI stable until we have new data
+  resultEl.innerText = ""; // clear prior message only
 
   const payload = JSON.stringify({ search: srch, userId });
   const url = urlBase + '/SearchContacts.' + extension;
@@ -313,108 +187,110 @@ function searchContact() {
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
   xhr.onreadystatechange = function () {
-    if (this.readyState === 4) {
-      // Network/server error -> just show message; keep list cleared
-      if (this.status !== 200) {
-        resultEl.innerText = "Search failed. Please try again.";
-        return;
-      }
+    if (this.readyState !== 4) return;
 
-      let data = {};
-      try { data = JSON.parse(xhr.responseText || "{}"); } catch {}
+    // Network/server error: show message, keep existing list (no flicker)
+    if (this.status !== 200) {
+      resultEl.innerText = "Search failed. Please try again.";
+      return;
+    }
 
-      const hasError = !!(data.error && data.error !== "");
-      const results = Array.isArray(data.results) ? data.results : [];
+    let data = {};
+    try { data = JSON.parse(xhr.responseText || "{}"); } catch {}
 
-      // If the box is non-empty and there are no matches => show "No records found"
-      if (srch.length > 0 && (hasError || results.length === 0)) {
-        resultEl.innerText = "No records found";
-        // list stays empty
-        return;
-      }
+    const hasError = !!(data.error && data.error !== "");
+    const results = Array.isArray(data.results) ? data.results : [];
 
-      // If the box is empty and backend returned nothing (or error), just show nothing
-      // (Some backends return all contacts for empty search; if yours does, this won't run.)
-      if (srch.length === 0 && (hasError || results.length === 0)) {
-        resultEl.innerText = "";
-        // list stays empty; optionally you can bail here
-        return;
-      }
+    // If user typed something and there are no matches, show "No records" and clear list
+    if (srch.length > 0 && (hasError || results.length === 0)) {
+      resultEl.innerText = "No records found";
+      listEl.innerHTML = ""; // reflect truth: no results
+      // optional: hide the message after a moment
+      setTimeout(() => { if (resultEl.innerText === "No records found") resultEl.innerText = ""; }, 3000);
+      return;
+    }
 
-      // Otherwise, render the matches and clear any message
+    // If search is empty and backend returned nothing (or error), show nothing
+    if (srch.length === 0 && (hasError || results.length === 0)) {
       resultEl.innerText = "";
+      listEl.innerHTML = "";
+      return;
+    }
 
-      for (let i = 0; i < results.length; i++) {
-        const c = results[i];
+    // We have matches — rebuild list now (smooth: only clear when inserting new content)
+    resultEl.innerText = "";
+    listEl.innerHTML = "";
 
-        const rowDiv = document.createElement('div');
-        rowDiv.className = 'contact-row';
-        rowDiv.id = `contact-${c.ID}`;
-        rowDiv.dataset.contactId = String(c.ID);
+    for (let i = 0; i < results.length; i++) {
+      const c = results[i];
 
-        const infoDiv = document.createElement('div');
-        infoDiv.className = 'contact-info';
+      const rowDiv = document.createElement('div');
+      rowDiv.className = 'contact-row';
+      rowDiv.id = `contact-${c.ID}`;
+      rowDiv.dataset.contactId = String(c.ID);
 
-        const displayDiv = document.createElement('div');
-        displayDiv.className = 'contact-display';
-        displayDiv.id = `display-${c.ID}`;
-        displayDiv.innerHTML = `
-          <span class="contact-name">${c.FirstName} ${c.LastName}</span>
-          ${c.Phone ? '<span class="contact-detail">Phone: ' + c.Phone + '</span>' : ''}
-          ${c.Email ? '<span class="contact-detail">Email: ' + c.Email + '</span>' : ''}
-        `;
+      const infoDiv = document.createElement('div');
+      infoDiv.className = 'contact-info';
 
-        const editDiv = document.createElement('div');
-        editDiv.className = 'contact-edit';
-        editDiv.id = `edit-${c.ID}`;
-        editDiv.style.display = 'none';
-        editDiv.innerHTML = `
-          <input type="text" id="editFirstName-${c.ID}" value="${c.FirstName}" placeholder="First Name" class="edit-input" />
-          <input type="text" id="editLastName-${c.ID}" value="${c.LastName}" placeholder="Last Name" class="edit-input" />
-          <input type="text" id="editPhone-${c.ID}" value="${c.Phone || ''}" placeholder="Phone" class="edit-input" />
-          <input type="text" id="editEmail-${c.ID}" value="${c.Email || ''}" placeholder="Email" class="edit-input" />
-        `;
+      const displayDiv = document.createElement('div');
+      displayDiv.className = 'contact-display';
+      displayDiv.id = `display-${c.ID}`;
+      displayDiv.innerHTML = `
+        <span class="contact-name">${c.FirstName} ${c.LastName}</span>
+        ${c.Phone ? '<span class="contact-detail">Phone: ' + c.Phone + '</span>' : ''}
+        ${c.Email ? '<span class="contact-detail">Email: ' + c.Email + '</span>' : ''}
+      `;
 
-        infoDiv.appendChild(displayDiv);
-        infoDiv.appendChild(editDiv);
+      const editDiv = document.createElement('div');
+      editDiv.className = 'contact-edit';
+      editDiv.id = `edit-${c.ID}`;
+      editDiv.style.display = 'none';
+      editDiv.innerHTML = `
+        <input type="text" id="editFirstName-${c.ID}" value="${c.FirstName}" placeholder="First Name" class="edit-input" />
+        <input type="text" id="editLastName-${c.ID}" value="${c.LastName}" placeholder="Last Name" class="edit-input" />
+        <input type="text" id="editPhone-${c.ID}" value="${c.Phone || ''}" placeholder="Phone" class="edit-input" />
+        <input type="text" id="editEmail-${c.ID}" value="${c.Email || ''}" placeholder="Email" class="edit-input" />
+      `;
 
-        const actionsDiv = document.createElement('div');
-        actionsDiv.className = 'contact-actions';
+      infoDiv.appendChild(displayDiv);
+      infoDiv.appendChild(editDiv);
 
-        const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'delete-inline';
-        deleteBtn.textContent = 'Delete';
-        deleteBtn.onclick = function () { deleteContact(c.ID); };
+      const actionsDiv = document.createElement('div');
+      actionsDiv.className = 'contact-actions';
 
-        const updateBtn = document.createElement('button');
-        updateBtn.className = 'update-inline';
-        updateBtn.id = `updateBtn-${c.ID}`;
-        updateBtn.textContent = 'Update';
-        updateBtn.onclick = function () { toggleEdit(c.ID); };
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'delete-inline';
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.onclick = function () { deleteContact(c.ID); };
 
-        const confirmBtn = document.createElement('button');
-        confirmBtn.className = 'confirm-inline';
-        confirmBtn.id = `confirmBtn-${c.ID}`;
-        confirmBtn.textContent = 'Confirm';
-        confirmBtn.style.display = 'none';
-        confirmBtn.onclick = function () { confirmUpdate(c.ID); };
+      const updateBtn = document.createElement('button');
+      updateBtn.className = 'update-inline';
+      updateBtn.id = `updateBtn-${c.ID}`;
+      updateBtn.textContent = 'Update';
+      updateBtn.onclick = function () { toggleEdit(c.ID); };
 
-        const cancelBtn = document.createElement('button');
-        cancelBtn.className = 'cancel-inline';
-        cancelBtn.id = `cancelBtn-${c.ID}`;
-        cancelBtn.textContent = 'Cancel';
-        cancelBtn.style.display = 'none';
-        cancelBtn.onclick = function () { cancelEdit(c.ID); };
+      const confirmBtn = document.createElement('button');
+      confirmBtn.className = 'confirm-inline';
+      confirmBtn.id = `confirmBtn-${c.ID}`;
+      confirmBtn.textContent = 'Confirm';
+      confirmBtn.style.display = 'none';
+      confirmBtn.onclick = function () { confirmUpdate(c.ID); };
 
-        actionsDiv.appendChild(deleteBtn);
-        actionsDiv.appendChild(updateBtn);
-        actionsDiv.appendChild(confirmBtn);
-        actionsDiv.appendChild(cancelBtn);
+      const cancelBtn = document.createElement('button');
+      cancelBtn.className = 'cancel-inline';
+      cancelBtn.id = `cancelBtn-${c.ID}`;
+      cancelBtn.textContent = 'Cancel';
+      cancelBtn.style.display = 'none';
+      cancelBtn.onclick = function () { cancelEdit(c.ID); };
 
-        rowDiv.appendChild(infoDiv);
-        rowDiv.appendChild(actionsDiv);
-        contactListEl.appendChild(rowDiv);
-      }
+      actionsDiv.appendChild(deleteBtn);
+      actionsDiv.appendChild(updateBtn);
+      actionsDiv.appendChild(confirmBtn);
+      actionsDiv.appendChild(cancelBtn);
+
+      rowDiv.appendChild(infoDiv);
+      rowDiv.appendChild(actionsDiv);
+      listEl.appendChild(rowDiv);
     }
   };
 
