@@ -17,7 +17,13 @@
 html, body {
   margin: 0;
   min-height: 100%;
+  overflow-x: hidden;
 }
+
+*, *::before, *::after { 
+  box-sizing: border-box; 
+}
+
 body {
   background: radial-gradient(1200px 800px at 10% 0%, #3C7A89 0%, #16262E 100%);
   color: var(--text);
@@ -44,16 +50,12 @@ body {
   border-radius: var(--radius);
   padding: 28px 24px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  overflow: hidden;
 }
 
-/* Keep everything inside the card from overflowing its width */
 .auth-card,
 .auth-card * {
   box-sizing: border-box;
-}
-
-.auth-card {
-  overflow: hidden; /* trims any subpixel bleed on rounded corners */
 }
 
 .auth-form input[type="text"],
@@ -62,8 +64,8 @@ body {
 }
 
 .auth-form input:focus {
-  outline: 0;               /* remove default outline */
-  box-shadow: 0 0 0 2px rgba(78,163,255,0.25); /* subtle focus ring */
+  outline: 0;
+  box-shadow: 0 0 0 2px rgba(78,163,255,0.25);
 }
 
 .auth-title {
@@ -83,6 +85,11 @@ body {
 .auth-form {
   display: grid;
   gap: 10px;
+  width: 100%;
+}
+
+.auth-form > * { 
+  max-width: 100%; 
 }
 
 .auth-label {
@@ -124,6 +131,7 @@ body {
   font-size: 16px;
   cursor: pointer;
 }
+
 .auth-button:hover,
 .buttons:hover {
   filter: brightness(1.05);
@@ -140,6 +148,7 @@ body {
   color: var(--accent);
   text-decoration: none;
 }
+
 .auth-link:hover {
   text-decoration: underline;
 }
@@ -149,7 +158,12 @@ body {
   margin-top: 6px;
   color: var(--danger);
   font-size: 13px;
-  min-height: 18px; /* avoids layout shift */
+  min-height: 18px;
+  transition: opacity 0.5s ease;
+}
+
+.auth-error:empty {
+  opacity: 0;
 }
 
 /* Neutralize any legacy IDs inside the new auth card if they exist */
@@ -163,6 +177,7 @@ body {
   padding: 0 !important;
   border: 0 !important;
 }
+
 .auth-card #loginName,
 .auth-card #loginPassword {
   font-size: 16px !important;
@@ -210,7 +225,7 @@ body.homepage {
 .homepage-divider {
   width: 100%;
   height: 4px;
-  background-color: var(--accent); /* #F6BD60 */
+  background-color: var(--accent);
   margin: 20px 0;
 }
 
@@ -255,7 +270,24 @@ body.homepage {
 ========================= */
 
 .contact-card {
-  max-width: 720px; /* wider than login/signup */
+  max-width: 720px;
+}
+
+.section-divider {
+  border: none;
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+  margin: 24px 0;
+}
+
+.contact-section {
+  margin-bottom: 20px;
+}
+
+.section-heading {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: var(--text);
 }
 
 .contact-input {
@@ -269,13 +301,17 @@ body.homepage {
   font-size: 16px;
 }
 
-.contact-results {
-  margin-top: 12px;
-  padding: 12px;
-  border-radius: var(--radius);
-  background: var(--card);
-  text-align: left;
-  white-space: pre-line;
+#searchText { 
+  width: 100%; 
+}
+
+.contact-results,
+#contactList {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .result-message {
@@ -284,87 +320,175 @@ body.homepage {
   color: var(--muted);
 }
 
+/* =========================
+   Contact Row Styles (with inline editing)
+========================= */
+
 .contact-row {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 12px;
+  background-color: rgba(255,255,255,0.05);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 10px;
-  margin-bottom: 6px;
-  border-radius: var(--radius);
-  background: rgba(255,255,255,0.05);
+  gap: 15px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.contact-row > * { 
+  min-width: 0; 
+}
+
+.contact-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-display {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact-name {
+  font-weight: 600;
+  font-size: 1.1em;
+  color: var(--text);
+}
+
+.contact-detail {
+  font-size: 0.9em;
+  color: var(--muted);
+}
+
+.contact-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.edit-input {
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  font-size: 0.95em;
+  font-family: 'Ubuntu', sans-serif;
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  transition: border-color 0.2s;
+}
+
+.edit-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.edit-input::placeholder {
+  color: #93a0b2;
+}
+
+.contact-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 100px;
+}
+
+.delete-inline,
+.update-inline,
+.confirm-inline,
+.cancel-inline {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 500;
+  transition: all 0.2s;
+  font-family: 'Ubuntu', sans-serif;
+  flex: 0 0 auto;
 }
 
 .delete-inline {
-  background: var(--accent);
-  border: none;
-  color: #ffffff;
-  padding: 6px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
+  background-color: #f44336;
+  color: white;
 }
 
 .delete-inline:hover {
+  background-color: #da190b;
   filter: brightness(1.1);
 }
 
-.auth-error {
-  transition: opacity 0.5s ease;
+.update-inline {
+  background-color: #2196F3;
+  color: white;
 }
 
-.auth-error:empty {
-  opacity: 0;
+.update-inline:hover {
+  background-color: #0b7dda;
+  filter: brightness(1.1);
 }
 
-/* Kill accidental horizontal scroll anywhere */
-html, body { overflow-x: hidden; }
-/* Make sizing predictable everywhere (not just inside .auth-card) */
-*, *::before, *::after { box-sizing: border-box; }
-
-/* Ensure the form and everything in it never exceed the card width */
-.auth-form { width: 100%; }
-.auth-form > * { max-width: 100%; }
-
-/* Search input specifically */
-#searchText { width: 100%; }
-
-/* Contact list container: keep inside card & wrap long strings */
-#contactList,
-.contact-results {
-  width: 100%;
-  max-width: 100%;
-  overflow-wrap: anywhere;
-  word-break: break-word;
+.confirm-inline {
+  background-color: #4CAF50;
+  color: white;
 }
 
-/* Contact row: allow wrapping, and let the text shrink instead of pushing */
-.contact-row {
-  display: flex;
-  flex-wrap: wrap;   /* key: allows the row to break onto multiple lines */
-  gap: 8px;
-  min-width: 0;
-}
-.contact-row > * { min-width: 0; }     /* let children shrink */
-
-/* Keep Delete button from stretching the row */
-.delete-inline {
-  flex: 0 0 auto;    /* don’t let it grow */
-  margin-left: auto; /* push it to the end of the line */
+.confirm-inline:hover {
+  background-color: #45a049;
+  filter: brightness(1.1);
 }
 
-/* Small screens: stack content so nothing can overflow */
+.cancel-inline {
+  background-color: #9E9E9E;
+  color: white;
+}
+
+.cancel-inline:hover {
+  background-color: #757575;
+  filter: brightness(1.1);
+}
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 600px) {
+  .contact-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .contact-actions {
+    flex-direction: row;
+    min-width: auto;
+    flex-wrap: wrap;
+  }
+}
+
 @media (max-width: 480px) {
-  .auth-shell { padding: 12px; }
-  .auth-card { padding: 20px 16px; border-radius: 14px; }
-  .contact-card { max-width: 100%; }
+  .auth-shell { 
+    padding: 12px; 
+  }
+  
+  .auth-card { 
+    padding: 20px 16px; 
+    border-radius: 14px; 
+  }
+  
+  .contact-card { 
+    max-width: 100%; 
+  }
 
   .contact-row {
     flex-direction: column;
     align-items: flex-start;
   }
-  .delete-inline { align-self: flex-end; }
+  
+  .delete-inline { 
+    align-self: flex-end; 
+  }
 }
-
-
-
-
