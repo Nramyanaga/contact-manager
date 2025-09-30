@@ -1,0 +1,61 @@
+<!-- <html>
+<head>
+	<title>COP 4331 LAMP Stack Demo</title>
+	<script type="text/javascript" src="js/md5.js"></script>
+	<script type="text/javascript" src="js/code.js"></script>
+    <link href="css/styles.css" rel="stylesheet">	
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+</head>
+<body>
+
+<h1 id="title">COP 4331 LAMP Stack Demo</h1>
+
+<div id="loginDiv">
+	<span id="inner-title">PLEASE LOG IN</span>
+	<input type="text" id="loginName" placeholder="Username" /><br />
+	<input type="password" id="loginPassword" placeholder="Password"/><br />
+	<button type="button" id="loginButton" class="buttons" onclick="doLogin();"> Do It </button>
+	<span id="loginResult"></span>
+</div>
+
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COP4331 — Login</title>
+  <link href="css/styles.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <script src="js/md5.js"></script>
+  <script src="js/code.js"></script>
+</head>
+<body>
+  <main class="auth-shell">
+    <section class="auth-card">
+      <h1 class="auth-title">Welcome back</h1>
+      <p class="auth-subtitle">Sign in to your account</p>
+
+      <div id="loginDiv" class="auth-form">
+        <label class="auth-label" for="loginName">Username</label>
+        <input type="text" id="loginName" placeholder="Username" />
+
+        <label class="auth-label" for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" placeholder="Password" />
+
+        <button type="button" id="loginButton" class="buttons auth-button" onclick="doLogin();">
+          Sign In
+        </button>
+
+        <span id="loginResult" class="auth-error"></span>
+
+        <p class="auth-switch">
+          Don’t have an account?
+          <a href="signup.html" class="auth-link">Create one</a>
+        </p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

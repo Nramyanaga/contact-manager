@@ -2,12 +2,12 @@
    Design Tokens
 ========================= */
 :root {
-  --bg: #0b0f14;
-  --card: #151a21;
-  --muted: #8b97a7;
-  --text: #e9eef7;
-  --accent: #4ea3ff;
-  --danger: #ff5a5f;
+  --bg: #16262E;
+  --card: #2E4756;
+  --muted: #F7EDE2;
+  --text: #F7EDE2;
+  --accent: #F6BD60;
+  --danger: #ffb49f;
   --radius: 18px;
 }
 
@@ -17,9 +17,15 @@
 html, body {
   margin: 0;
   min-height: 100%;
+  overflow-x: hidden;
 }
+
+*, *::before, *::after { 
+  box-sizing: border-box; 
+}
+
 body {
-  background: radial-gradient(1200px 800px at 10% 0%, #10151c 0%, #0b0f14 60%);
+  background: radial-gradient(1200px 800px at 10% 0%, #3C7A89 0%, #16262E 100%);
   color: var(--text);
   font-family: 'Ubuntu', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 }
@@ -37,22 +43,19 @@ body {
 .auth-card {
   width: 100%;
   max-width: 460px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.00));
+  margin: auto;
+  background: var(--card);
   backdrop-filter: blur(6px);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: var(--radius);
   padding: 28px 24px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  overflow: hidden;
 }
 
-/* Keep everything inside the card from overflowing its width */
 .auth-card,
 .auth-card * {
   box-sizing: border-box;
-}
-
-.auth-card {
-  overflow: hidden; /* trims any subpixel bleed on rounded corners */
 }
 
 .auth-form input[type="text"],
@@ -61,8 +64,8 @@ body {
 }
 
 .auth-form input:focus {
-  outline: 0;               /* remove default outline */
-  box-shadow: 0 0 0 2px rgba(78,163,255,0.25); /* subtle focus ring */
+  outline: 0;
+  box-shadow: 0 0 0 2px rgba(78,163,255,0.25);
 }
 
 .auth-title {
@@ -82,6 +85,11 @@ body {
 .auth-form {
   display: grid;
   gap: 10px;
+  width: 100%;
+}
+
+.auth-form > * { 
+  max-width: 100%; 
 }
 
 .auth-label {
@@ -118,11 +126,12 @@ body {
   padding: 12px;
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.14);
-  background: linear-gradient(180deg, #2b6bb2, #21538a);
-  color: #fff;
+  background: linear-gradient(180deg, #F6BD60, #d1922a);
+  color: #F7EDE2;
   font-size: 16px;
   cursor: pointer;
 }
+
 .auth-button:hover,
 .buttons:hover {
   filter: brightness(1.05);
@@ -139,6 +148,7 @@ body {
   color: var(--accent);
   text-decoration: none;
 }
+
 .auth-link:hover {
   text-decoration: underline;
 }
@@ -148,7 +158,12 @@ body {
   margin-top: 6px;
   color: var(--danger);
   font-size: 13px;
-  min-height: 18px; /* avoids layout shift */
+  min-height: 18px;
+  transition: opacity 0.5s ease;
+}
+
+.auth-error:empty {
+  opacity: 0;
 }
 
 /* Neutralize any legacy IDs inside the new auth card if they exist */
@@ -162,6 +177,7 @@ body {
   padding: 0 !important;
   border: 0 !important;
 }
+
 .auth-card #loginName,
 .auth-card #loginPassword {
   font-size: 16px !important;
@@ -172,94 +188,307 @@ body {
 }
 
 /* =========================
-   Legacy Pages (Optional)
-   Use by adding <body class="legacy"> on older pages like color.html
+   Homepage Styles
 ========================= */
-body.legacy {
-  background-color: #707070;
-  color: #000;
+body.homepage {
+  background: url('../images/background.jpg');
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: 'Ubuntu', sans-serif;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
 }
 
-body.legacy #title {
-  font-size: 40px;
+.homepage-header {
   width: 100%;
-  margin: 2% 5%;
-  text-align: center;
-  font-family: 'Ubuntu', sans-serif;
-  color: #FFFFFF;
+  padding: 40px 20px 20px;
 }
 
-body.legacy #loginDiv,
-body.legacy #loggedInDiv,
-body.legacy #accessUIDiv {
-  font-size: 30px;
-  width: 70%;
-  margin-left: 15%;
-  padding: 25px;
-  background-color: #b2b2b2;
+.homepage-header h1 {
+  font-size: 36px;
+  margin: 0;
+  color: #F7EDE2;
 }
 
-body.legacy .buttons {
-  font-size: 30px;
-  border-radius: 25px;
-  width: 50%;
-  margin-left: 25%;
-  font-family: 'Ubuntu', sans-serif;
-}
-body.legacy .buttons:hover {
-  background-color: #00d5124f;
-  color: #FFFFFF;
-  opacity: 0.5; /* fix invalid 50% */
+.homepage-header .tagline {
+  font-size: 16px;
+  color: #F7EDE2;
+  margin-top: 8px;
 }
 
-body.legacy #loginName,
-body.legacy #loginPassword,
-body.legacy #searchText,
-body.legacy #colorText {
-  font-size: 30px;
+.homepage-divider {
+  width: 100%;
+  height: 4px;
+  background-color: var(--accent);
+  margin: 20px 0;
 }
 
-body.legacy input[type="text"],
-body.legacy input[type="password"] {
-  border-radius: 25px;
-  text-align: center;
-  width: 80%;
-  margin-left: 10%;
-  margin-bottom: 2%;
-  font-family: 'Ubuntu', sans-serif;
+.homepage-main {
+  flex: 1;
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
 }
 
-body.legacy #inner-title,
-body.legacy #loginResult,
-body.legacy #colorAddResult {
+.section-title {
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.homepage-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.homepage-nav .nav-link {
   display: inline-block;
-  font-size: 0.8em;
-  width: 90%;
-  text-align: center;
-  margin-left: 5%;
-  margin-bottom: 2%;
+  padding: 12px 24px;
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, #F6BD60, #d1922a);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 16px;
+  border: 1px solid rgba(255,255,255,0.14);
+  transition: filter 0.2s ease;
+}
+
+.homepage-nav .nav-link:hover {
+  filter: brightness(1.1);
+}
+
+/* =========================
+   Contact Page Styles
+========================= */
+
+.contact-card {
+  max-width: 720px;
+}
+
+.section-divider {
+  border: none;
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+  margin: 24px 0;
+}
+
+.contact-section {
+  margin-bottom: 20px;
+}
+
+.section-heading {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.contact-input {
+  width: 100%;
+  padding: 12px 14px;
+  margin: 6px 0;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  font-size: 16px;
+}
+
+#searchText { 
+  width: 100%; 
+}
+
+.contact-results,
+#contactList {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.result-message {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* =========================
+   Contact Row Styles (with inline editing)
+========================= */
+
+.contact-row {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 12px;
+  background-color: rgba(255,255,255,0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.contact-row > * { 
+  min-width: 0; 
+}
+
+.contact-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-display {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact-name {
+  font-weight: 600;
+  font-size: 1.1em;
+  color: var(--text);
+}
+
+.contact-detail {
+  font-size: 0.9em;
+  color: var(--muted);
+}
+
+.contact-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.edit-input {
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  font-size: 0.95em;
   font-family: 'Ubuntu', sans-serif;
-  color: #95060a;
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  transition: border-color 0.2s;
 }
 
-body.legacy #userName {
-  display: inline-block;
-  width: 80%;
-  margin-left: 10%;
-  text-align: center;
+.edit-input:focus {
+  outline: none;
+  border-color: var(--accent);
 }
 
-body.legacy #logoutButton {
-  width: 20%;
-  margin-left: 40%;
+.edit-input::placeholder {
+  color: #93a0b2;
 }
 
-body.legacy select {
-  width: 30%;
-  margin-left: 35%;
-  margin-top: 2%;
-  font-size: 0.75em;
+.contact-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 100px;
+}
+
+.delete-inline,
+.update-inline,
+.confirm-inline,
+.cancel-inline {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 500;
+  transition: all 0.2s;
   font-family: 'Ubuntu', sans-serif;
+  flex: 0 0 auto;
 }
 
-body.legacy #colorSearchResult { display: none; }
+.delete-inline {
+  background-color: #c62828;
+  color: white;
+}
+
+.delete-inline:hover {
+  background-color: #da190b;
+  filter: brightness(1.1);
+}
+
+.update-inline {
+  background-color: #1565c0;
+  color: white;
+}
+
+.update-inline:hover {
+  background-color: #0b7dda;
+  filter: brightness(1.1);
+}
+
+.confirm-inline {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.confirm-inline:hover {
+  background-color: #45a049;
+  filter: brightness(1.1);
+}
+
+.cancel-inline {
+  background-color: #9E9E9E;
+  color: white;
+}
+
+.cancel-inline:hover {
+  background-color: #757575;
+  filter: brightness(1.1);
+}
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 600px) {
+  .contact-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .contact-actions {
+    flex-direction: row;
+    min-width: auto;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-shell { 
+    padding: 12px; 
+  }
+  
+  .auth-card { 
+    padding: 20px 16px; 
+    border-radius: 14px; 
+  }
+  
+  .contact-card { 
+    max-width: 100%; 
+  }
+
+  .contact-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .delete-inline { 
+    align-self: flex-end; 
+  }
+}
