@@ -114,62 +114,60 @@ function doLogout()
 
 function addContact()
 {
-	let firstName = document.getElementById("contactFirstName").value;
-	let lastName = document.getElementById("contactLastName").value;
-	let phone = document.getElementById("contactPhone").value;
-	let email = document.getElementById("contactEmail").value;
+  let firstName = document.getElementById("contactFirstName").value.trim();
+  let lastName  = document.getElementById("contactLastName").value.trim();
+  let phone     = document.getElementById("contactPhone").value.trim();
+  let email     = document.getElementById("contactEmail").value.trim();
 
-	document.getElementById("contactAddResult").innerHTML = "";
+  const resultEl = document.getElementById("contactAddResult");
+  resultEl.innerHTML = "";
 
-	let tmp = {firstName:firstName, lastName:lastName, phone:phone, email:email, userId:userId};
-	let jsonPayload = JSON.stringify( tmp );
+  // Validation: all fields required
+  if (!firstName || !lastName || !phone || !email) {
+    resultEl.innerHTML = "All fields are required.";
+    setTimeout(() => { resultEl.innerHTML = ""; }, 3000);
+    return;
+  }
 
-	let url = urlBase + '/AddContact.' + extension;
-	
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				let jsonObject = JSON.parse(xhr.responseText);
-                
-                if (jsonObject.error && jsonObject.error !== "") 
-                {
-                    document.getElementById("contactAddResult").innerHTML = jsonObject.error;
-                } 
-                else 
-                {
-                    const resultEl = document.getElementById("contactAddResult");
-                    resultEl.innerHTML = "Contact has been added";
+  let tmp = { firstName, lastName, phone, email, userId };
+  let jsonPayload = JSON.stringify(tmp);
 
-                    // clear inputs
-                    document.getElementById("contactFirstName").value = "";
-                    document.getElementById("contactLastName").value = "";
-                    document.getElementById("contactPhone").value = "";
-                    document.getElementById("contactEmail").value = "";
+  let url = urlBase + '/AddContact.' + extension;
 
-                    // refresh list
-                    searchContact();
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  try {
+    xhr.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        let jsonObject = JSON.parse(xhr.responseText);
 
-                    // fade out message after 3 seconds
-                    setTimeout(() => {
-                        resultEl.innerHTML = "";
-                    }, 3000);
-                }
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		document.getElementById("contactAddResult").innerHTML = err.message;
-	}
-	
+        if (jsonObject.error && jsonObject.error !== "") {
+          resultEl.innerHTML = jsonObject.error;
+        } else {
+          resultEl.innerHTML = "Contact has been added";
+
+          // clear inputs
+          document.getElementById("contactFirstName").value = "";
+          document.getElementById("contactLastName").value  = "";
+          document.getElementById("contactPhone").value     = "";
+          document.getElementById("contactEmail").value     = "";
+
+          // refresh list
+          searchContact();
+
+          // fade out
+          setTimeout(() => { resultEl.innerHTML = ""; }, 3000);
+        }
+      }
+    };
+    xhr.send(jsonPayload);
+  }
+  catch(err) {
+    resultEl.innerHTML = err.message;
+  }
 }
+
 
 function searchContact() {
   const srch = (document.getElementById("searchText")?.value || "").trim();
